@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    tools:context=".ui.reportes.PrincipalReportesFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabAtras"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:clickable="true"
+                android:src="@drawable/ic_flecha_atras"
+                android:textAlignment="gravity"
+                app:fabSize="mini" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="226dp"
+                android:src="@mipmap/ic_banner_foreground" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnReporteEntrada"
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:text="REPORTE ENTRADAS"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnReporteSalida"
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:text="REPORTE SALIDAS"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:translationY="10dp" />
+
+                <Button
+                    android:id="@+id/btnReporteStock"
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:text="REPORTE STOCK"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:translationY="20dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_principal">
+
+    <fragment
+        android:id="@+id/nav_principal"
+        android:name="pe.com.marbella.ui.principal.PrincipalFragment"
+        android:label="@string/menu_principal"
+        tools:layout="@layout/fragment_principal" />
+
+    <fragment
+        android:id="@+id/nav_productos"
+        android:name="pe.com.marbella.ui.producto.ProductoFragment"
+        android:label="@string/menu_productos"
+        tools:layout="@layout/fragment_producto" />
+
+    <fragment
+        android:id="@+id/nav_marcas"
+        android:name="pe.com.marbella.ui.marca.MarcaFragment"
+        android:label="@string/menu_marcas"
+        tools:layout="@layout/fragment_marca" />
+    <fragment
+        android:id="@+id/nav_proveedores"
+        android:name="pe.com.marbella.ui.proveedor.ProveedorFragment"
+        android:label="@string/menu_proveedores"
+        tools:layout="@layout/fragment_proveedor" />
+    <fragment
+        android:id="@+id/nav_usuarios"
+        android:name="pe.com.marbella.ui.usuario.UsuarioFragment"
+        android:label="@string/menu_usuarios"
+        tools:layout="@layout/fragment_usuario" />
+    <fragment
+        android:id="@+id/nav_reportes"
+        android:name="pe.com.marbella.ui.reportes.PrincipalReportesFragment"
+        android:label="@string/menu_reportes"
+        tools:layout="@layout/fragment_principal_reportes" />
+</navigation>

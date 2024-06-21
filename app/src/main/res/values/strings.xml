@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">AppMarbella</string>
+    <string name="navigation_drawer_open">Abrir menu lateral</string>
+    <string name="navigation_drawer_close">Cerrar menu lateral</string>
+    <string name="nav_header_title">Minimarket Marbella</string>
+    <string name="nav_header_subtitle">Su minimarket de confianza</string>
+    <string name="nav_header_desc">Barra de navegación</string>
+    <string name="action_settings">Cerrar Sesion</string>
+
+    <string name="menu_principal">Inicio</string>
+    <string name="menu_productos">Productos</string>
+    <string name="menu_marcas">Marcas</string>
+    <string name="menu_proveedores">Proveedores</string>
+    <string name="menu_usuarios">Usuarios</string>
+    <string name="menu_reportes">Reportes</string>
+    <string name="title_activity_login">Iniciar Sesión</string>
+    <string name="prompt_usuario">Usuario</string>
+    <string name="prompt_contrasenia">Contraseña</string>
+    <string name="action_sign_in">Iniciar Sesión</string>
+    <string name="action_sign_in_short">Inicia Sesión!</string>
+    <string name="welcome">"Bienvenido "</string>
+    <string name="invalid_username">Usuario no valido</string>
+    <string name="invalid_password">Contraseña debe contener al menos 6 caracteres</string>
+    <string name="login_failed">"Inicio de sesion fallido"</string>
+</resources>
