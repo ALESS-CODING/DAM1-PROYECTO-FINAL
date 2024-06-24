@@ -2,31 +2,33 @@ package pe.com.marbella.ui.marca
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pe.com.marbella.adaptadores.marca.MarcaAdapter
 import pe.com.marbella.databinding.FragmentMarcaBinding
+import pe.com.marbella.util.ToastUtil
+import javax.inject.Inject
+
 @AndroidEntryPoint
-class MarcaFragment : Fragment() {
+class MarcaFragment  constructor() : Fragment() {
 
     private val marcaViewModel by viewModels<MarcaViewModel>()
     private var _binding: FragmentMarcaBinding? = null
     private val binding get() = _binding!!
     //Marca adapter
     private lateinit var marcaAdapter: MarcaAdapter
+    private var ID_MARCA: Long = 0L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,11 +51,14 @@ class MarcaFragment : Fragment() {
     }
     //Inicuializar marca adapater
     private fun initMarcaAdapter() {
-        marcaAdapter = MarcaAdapter()
+        marcaAdapter = MarcaAdapter( onItemSelected = {
+            //obtener el id de marca seleccionanda
+            ID_MARCA = it
+        })
+
         binding.rvMarcaLista.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = marcaAdapter
-
         }
     }
 
@@ -71,19 +76,31 @@ class MarcaFragment : Fragment() {
             startActivity(intent)
         }
 
+        /*
         binding.btnActualizarMarca.setOnClickListener {
             val idMarca:Long = obtenerIdMarcaSeleccionada()
             val intent = Intent(activity, RegistroMarca::class.java)
             intent.putExtra("IS_EDIT_MODE", true)
             intent.putExtra("ID_MARCA", idMarca)
             startActivity(intent)
+        }*/
+
+        binding.btnActualizarMarca.setOnClickListener{
+            if(ID_MARCA == 0L){
+                Toast.makeText(context, "Por favor seleccione una marca para ACTUALIZAR", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            startUpdateMarca()
         }
 
         return root
     }
 
-    private fun obtenerIdMarcaSeleccionada(): Long {
-        return 123L
+    //abrir activity update Producto pasando id marca
+    private fun startUpdateMarca() {
+        findNavController().navigate(
+            MarcaFragmentDirections.actionNavMarcasToRegistroMarca(ID_MARCA)
+        )
     }
 
     override fun onDestroyView() {

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -39,7 +40,11 @@ class ProductoFragment : Fragment() {
 
     //inicializar adaptaer
     private fun initProductoAdapter() {
-        productoAdapter = ProductoAdapter()
+        //obtneer produto selecionnado
+        productoAdapter = ProductoAdapter(onItemSelected = {
+            Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+        })
+
         binding.lvProducto.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = productoAdapter

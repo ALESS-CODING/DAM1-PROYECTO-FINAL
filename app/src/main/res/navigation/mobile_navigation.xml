@@ -21,7 +21,12 @@
         android:id="@+id/nav_marcas"
         android:name="pe.com.marbella.ui.marca.MarcaFragment"
         android:label="@string/menu_marcas"
-        tools:layout="@layout/fragment_marca" />
+        tools:layout="@layout/fragment_marca" >
+        <action
+            android:id="@+id/action_nav_marcas_to_registroMarca"
+            app:destination="@id/registroMarca" />
+
+    </fragment>
     <fragment
         android:id="@+id/nav_proveedores"
         android:name="pe.com.marbella.ui.proveedor.ProveedorFragment"
@@ -31,10 +36,33 @@
         android:id="@+id/nav_usuarios"
         android:name="pe.com.marbella.ui.usuario.UsuarioFragment"
         android:label="@string/menu_usuarios"
-        tools:layout="@layout/fragment_usuario" />
+        tools:layout="@layout/fragment_usuario" >
+        <action
+            android:id="@+id/action_nav_usuarios_to_registroUsuario"
+            app:destination="@id/registroUsuario" />
+    </fragment>
     <fragment
         android:id="@+id/nav_reportes"
         android:name="pe.com.marbella.ui.reportes.PrincipalReportesFragment"
         android:label="@string/menu_reportes"
         tools:layout="@layout/fragment_principal_reportes" />
+    <activity
+        android:id="@+id/registroProducto"
+        android:name="pe.com.marbella.ui.producto.RegistroProducto"
+        android:label="activity_registro_producto"
+        tools:layout="@layout/activity_registro_producto" />
+    <activity
+        android:id="@+id/registroUsuario"
+        android:name="pe.com.marbella.ui.usuario.RegistroUsuario"
+        android:label="activity_registro_usuario"
+        tools:layout="@layout/activity_registro_usuario" />
+    <activity
+        android:id="@+id/registroMarca"
+        android:name="pe.com.marbella.ui.marca.RegistroMarca"
+        android:label="activity_registro_marca"
+        tools:layout="@layout/activity_registro_marca" >
+        <argument
+            android:name="codigoMarca"
+            app:argType="long" />
+    </activity>
 </navigation>

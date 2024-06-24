@@ -3,16 +3,27 @@ package pe.com.marbella.ui.usuario
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import dagger.hilt.android.AndroidEntryPoint
 import pe.com.marbella.R
+import pe.com.marbella.databinding.ActivityRegistroUsuarioBinding
 
+@AndroidEntryPoint
 class RegistroUsuario : AppCompatActivity() {
+
+    private lateinit var binding: ActivityRegistroUsuarioBinding
+    private val usuarioRegistroViewModel: UsuarioRegistroViewModel by viewModels()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_registro_usuario)
+        binding = ActivityRegistroUsuarioBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import pe.com.marbella.R
 import pe.com.marbella.data.model.Marca
 
-class MarcaAdapter (var marcaList: List<Marca> = emptyList()) : RecyclerView.Adapter<MarcaViewHolder> () {
+class MarcaAdapter (
+    private var marcaList: List<Marca> = emptyList(), private var onItemSelected : (codigo: Long) -> Unit
+) : RecyclerView.Adapter<MarcaViewHolder> () {
 
     fun actualizarListaMarca(lista : List<Marca>) {
         marcaList = lista
@@ -24,7 +26,7 @@ class MarcaAdapter (var marcaList: List<Marca> = emptyList()) : RecyclerView.Ada
     }
 
     override fun onBindViewHolder(holder: MarcaViewHolder, position: Int) {
-        holder.render(marcaList[position])
+        holder.render(marcaList[position], onItemSelected)
     }
 
 

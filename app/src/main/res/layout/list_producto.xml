@@ -5,7 +5,8 @@
     android:orientation="horizontal"
     android:padding="5dp"
     android:background="@drawable/border"
-    android:textAlignment="center">
+    android:textAlignment="center"
+    android:id="@+id/lyListaProduto">
 
     <TextView
         android:id="@+id/lblIdProd"
