@@ -1,6 +1,11 @@
+import com.android.build.gradle.internal.utils.KOTLIN_KAPT_PLUGIN_ID
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.dagger.hilt)
+    id( "kotlin-kapt")
+
 }
 
 android {
@@ -9,7 +14,8 @@ android {
 
     defaultConfig {
         applicationId = "pe.com.marbella"
-        minSdk = 24
+        minSdk = 26
+        //noinspection OldTargetApi
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -36,6 +42,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -55,4 +62,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    //Dagger-Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 }

@@ -7,16 +7,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 import pe.com.marbella.R
 import pe.com.marbella.databinding.FragmentPrincipalReportesBinding
 import pe.com.marbella.databinding.FragmentProductoBinding
 import pe.com.marbella.ui.principal.PrincipalFragment
 import pe.com.marbella.ui.producto.RegistroProducto
 
+@AndroidEntryPoint
 class PrincipalReportesFragment : Fragment() {
 
+    private val principalReportesViewModel by viewModels<PrincipalReportesViewModel>()
     private var _binding: FragmentPrincipalReportesBinding? = null
-
     private val binding get() = _binding!!
 
     override fun onCreateView(
