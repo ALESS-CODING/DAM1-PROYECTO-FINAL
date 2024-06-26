@@ -1,3 +1,9 @@
 package pe.com.marbella.data.model
 
-data class Marca(var codigo: Long, var descripcion: String)
+import com.google.gson.annotations.SerializedName
+
+data class Marca(
+    @SerializedName("idMarca") var codigo: Long,
+    @SerializedName("nombre") var descripcion: String,
+    @SerializedName("estado") var estado: Boolean
+)

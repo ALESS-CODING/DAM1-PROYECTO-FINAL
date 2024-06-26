@@ -10,6 +10,6 @@ import javax.inject.Inject
 class ProductoProvider @Inject constructor() {
 
     fun getAllsProducts (): List<Producto> {
-        return listOf<Producto>(Producto(1, "alex", "desripion", 3, 6, BigDecimal.valueOf(16), UnidadMedida(1, ""), Categoria(1, ""), Marca(1, "")))
+        return listOf<Producto>(Producto(1, "alex", "desripion", 3, 6, BigDecimal.valueOf(16), UnidadMedida(1, ""), Categoria(1, ""), Marca(1, "", true)))
     }
 }

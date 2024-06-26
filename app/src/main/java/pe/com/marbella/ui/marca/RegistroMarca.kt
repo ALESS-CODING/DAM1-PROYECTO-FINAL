@@ -1,17 +1,31 @@
 package pe.com.marbella.ui.marca
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.navArgs
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import pe.com.marbella.R
+import pe.com.marbella.data.model.Marca
+import pe.com.marbella.data.model.MarcaState
+import pe.com.marbella.data.services.MarcaApiService
 import pe.com.marbella.databinding.ActivityRegistroMarcaBinding
+import javax.inject.Inject
 
-class RegistroMarca : AppCompatActivity() {
+@AndroidEntryPoint
+class RegistroMarca: AppCompatActivity() {
 
     private lateinit var binding: ActivityRegistroMarcaBinding
     private val ARGUMENTS: RegistroMarcaArgs by navArgs()
@@ -24,8 +38,11 @@ class RegistroMarca : AppCompatActivity() {
         binding = ActivityRegistroMarcaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ARGUMENTS.codigoMarca
+        initUI()
 
+        if(ARGUMENTS.ISEDITMODE && ARGUMENTS.codigoMarca != -1L){
+            registroViewModel.findByIdMarca(ARGUMENTS.codigoMarca)
+        }
 
 
 
@@ -35,7 +52,9 @@ class RegistroMarca : AppCompatActivity() {
             insets
         }
 
-        val isEditMode = intent.getBooleanExtra("IS_EDIT_MODE", false)
+
+
+        /*val isEditMode = intent.getBooleanExtra("IS_EDIT_MODE", false)
         val idMarca = intent.getLongExtra("ID_MARCA", -1L)
 
         if (isEditMode && idMarca != -1L) {
@@ -50,13 +69,36 @@ class RegistroMarca : AppCompatActivity() {
             } else {
                 grabarNuevaMarca()
             }
-        }
+        }*/
 
         // Configura el botón de regreso
         val backButton: Button = findViewById(R.id.btnRegresarMar)
         backButton.setOnClickListener {
             finish()
         }
+    }
+
+    private fun initUI() {
+        initUIState()
+    }
+
+    private fun initUIState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                registroViewModel.stateMarca.collect{
+                    when(it){
+                        is MarcaState.Error -> {}
+                        MarcaState.Loading -> {}
+                        is MarcaState.Success -> {cargarDataMarca(it.marca)}
+                    }
+                }
+            }
+
+        }
+    }
+
+    private fun error() {
+        Toast.makeText(this, "Ocurrio un error", Toast.LENGTH_LONG).show()
     }
 
     private fun grabarNuevaMarca() {
@@ -67,7 +109,7 @@ class RegistroMarca : AppCompatActivity() {
 
     }
 
-    private fun cargarDataMarca(idMarca: Long) {
-
+    private fun cargarDataMarca(marca: Marca) {
+        binding.txtNombreMar.setText(marca.descripcion.toString())
     }
 }

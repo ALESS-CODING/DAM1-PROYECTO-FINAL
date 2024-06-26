@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import pe.com.marbella.R
 import pe.com.marbella.data.model.Proveedor
 
-class ProveedorAdapter (var proveedorList: List<Proveedor> = emptyList()) : RecyclerView.Adapter<ProveedorViewHolder> () {
+class ProveedorAdapter (
+    private var proveedorList: List<Proveedor> = emptyList(), private var onItemSelected: (codigo: Long) -> Unit
+) : RecyclerView.Adapter<ProveedorViewHolder> () {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProveedorViewHolder {
         val proveedorViewHolder: ProveedorViewHolder = ProveedorViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.list_proveedor,parent , false)
@@ -19,7 +21,7 @@ class ProveedorAdapter (var proveedorList: List<Proveedor> = emptyList()) : Recy
     }
 
     override fun onBindViewHolder(holder: ProveedorViewHolder, position: Int) {
-        return holder.render(proveedorList[position])
+        return holder.render(proveedorList[position], onItemSelected)
     }
 
     fun actualizarProveedorList(lista: List<Proveedor>) {

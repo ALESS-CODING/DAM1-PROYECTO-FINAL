@@ -13,7 +13,7 @@ class UsuarioAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UsuarioViewHolder {
-        var usuarioViewHolder = UsuarioViewHolder(
+        val usuarioViewHolder = UsuarioViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.list_usuario, parent, false)
         )
         return  usuarioViewHolder

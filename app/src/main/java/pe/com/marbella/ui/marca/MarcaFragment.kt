@@ -23,12 +23,13 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MarcaFragment  constructor() : Fragment() {
 
+
     private val marcaViewModel by viewModels<MarcaViewModel>()
     private var _binding: FragmentMarcaBinding? = null
     private val binding get() = _binding!!
     //Marca adapter
     private lateinit var marcaAdapter: MarcaAdapter
-    private var ID_MARCA: Long = 0L
+    private var ID_MARCA: Long = -1L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,9 +72,20 @@ class MarcaFragment  constructor() : Fragment() {
         val root: View = binding.root
 
         binding.btnRegistrarMarca.setOnClickListener {
-            val intent = Intent(activity, RegistroMarca::class.java)
+            /*val intent = Intent(activity, RegistroMarca::class.java)
             intent.putExtra("IS_EDIT_MODE", false)
-            startActivity(intent)
+            startActivity(intent)*/
+
+            findNavController().navigate(
+                MarcaFragmentDirections.actionNavMarcasToRegistroMarca(-1L, false)
+            )
+        }
+        binding.btnEliminarMarca.setOnClickListener {
+            if(ID_MARCA == -1L){
+                Toast.makeText(context, "Por Favor seleccione una marca ", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            marcaViewModel.deleteByIdMarca(ID_MARCA)
         }
 
         /*
@@ -86,7 +98,7 @@ class MarcaFragment  constructor() : Fragment() {
         }*/
 
         binding.btnActualizarMarca.setOnClickListener{
-            if(ID_MARCA == 0L){
+            if(ID_MARCA == -1L){
                 Toast.makeText(context, "Por favor seleccione una marca para ACTUALIZAR", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
@@ -99,7 +111,7 @@ class MarcaFragment  constructor() : Fragment() {
     //abrir activity update Producto pasando id marca
     private fun startUpdateMarca() {
         findNavController().navigate(
-            MarcaFragmentDirections.actionNavMarcasToRegistroMarca(ID_MARCA)
+            MarcaFragmentDirections.actionNavMarcasToRegistroMarca(ID_MARCA, true)
         )
     }
 

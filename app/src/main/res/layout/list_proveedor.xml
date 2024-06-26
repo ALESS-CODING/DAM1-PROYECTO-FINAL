@@ -5,6 +5,7 @@
     android:orientation="horizontal"
     android:padding="5dp"
     android:background="@drawable/border"
+    android:id="@+id/lyListaProveedor"
     android:textAlignment="center">
 
     <TextView

@@ -29,6 +29,7 @@ class UsuarioFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var usuarioAdapter: UsuarioAdapter
+    private var ID_USUARIO: Long = 0L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,11 +44,7 @@ class UsuarioFragment : Fragment() {
     private fun initUsuarioAdapter() {
         usuarioAdapter = UsuarioAdapter( onItemSelected = {
             //navegar a registro producto
-            findNavController().navigate(
-                UsuarioFragmentDirections.actionNavUsuariosToRegistroUsuario()
-            )
-
-            Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+            ID_USUARIO = it
         })
         binding.rvUsuario.apply {
             layoutManager = LinearLayoutManager(context)
@@ -79,14 +76,25 @@ class UsuarioFragment : Fragment() {
         }
 
         binding.btnActualizarUsuario.setOnClickListener {
-            val idUsuario:Long = obtenerIdUsuarioSeleccionado()
+            /*val idUsuario:Long = obtenerIdUsuarioSeleccionado()
             val intent = Intent(activity, RegistroUsuario::class.java)
             intent.putExtra("IS_EDIT_MODE", true)
             intent.putExtra("ID_USUARIO", idUsuario)
-            startActivity(intent)
+            startActivity(intent)*/
+            if(ID_USUARIO == 0L){
+                Toast.makeText(context, "Porfavor leccione un usuario", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            iniciarActualizarUsuario ()
         }
 
         return root
+    }
+
+    private fun iniciarActualizarUsuario() {
+        findNavController().navigate(
+            UsuarioFragmentDirections.actionNavUsuariosToRegistroUsuario(ID_USUARIO)
+        )
     }
 
     private fun obtenerIdUsuarioSeleccionado(): Long {

@@ -6,8 +6,8 @@ import javax.inject.Inject
 class MarcaProvider @Inject constructor(){
     fun getAllMarca (): List<Marca> {
         return listOf(
-            Marca(1L, "Inka Cola"),
-            Marca(2, "Gloria")
+            Marca(1L, "Inka Cola", true),
+            Marca(2, "Gloria", true)
         )
     }
 }

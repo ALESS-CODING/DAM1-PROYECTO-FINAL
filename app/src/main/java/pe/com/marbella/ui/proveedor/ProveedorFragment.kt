@@ -6,11 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +31,7 @@ class ProveedorFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var proveedorAdapter : ProveedorAdapter
+    private var ID_PROVEEDOR: Long = 0L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,7 +44,10 @@ class ProveedorFragment : Fragment() {
     }
 
     private fun initProveedorAdapter() {
-        proveedorAdapter = ProveedorAdapter()
+        proveedorAdapter = ProveedorAdapter(onItemSelected = {
+            //obtener el id de proveedor
+            ID_PROVEEDOR = it
+        })
         binding.rvProveedor.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = proveedorAdapter
@@ -73,14 +79,27 @@ class ProveedorFragment : Fragment() {
         }
 
         binding.btnActualizarProveedor.setOnClickListener {
-            val idProveedor:Long = obtenerIdProveedorSeleccionado()
+           /*val idProveedor:Long = obtenerIdProveedorSeleccionado()
             val intent = Intent(activity, RegistroProveedor::class.java)
             intent.putExtra("IS_EDIT_MODE", true)
             intent.putExtra("ID_PROVEEDOR", idProveedor)
-            startActivity(intent)
+            startActivity(intent)*/
+            if(ID_PROVEEDOR == 0L){
+                Toast.makeText(context, "Seleccione un proveedor porfavor para actualizar", Toast.LENGTH_LONG ).show()
+                return@setOnClickListener
+            }
+
+            //iniciar activity Actualizar proveedor pasando el codigo
+            iniciarActualizarProveedor()
         }
 
         return root
+    }
+
+    private fun iniciarActualizarProveedor() {
+        findNavController().navigate(
+            ProveedorFragmentDirections.actionNavProveedoresToRegistroProveedor(ID_PROVEEDOR)
+        )
     }
 
     private fun obtenerIdProveedorSeleccionado(): Long {

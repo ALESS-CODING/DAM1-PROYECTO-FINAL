@@ -31,7 +31,11 @@
         android:id="@+id/nav_proveedores"
         android:name="pe.com.marbella.ui.proveedor.ProveedorFragment"
         android:label="@string/menu_proveedores"
-        tools:layout="@layout/fragment_proveedor" />
+        tools:layout="@layout/fragment_proveedor" >
+        <action
+            android:id="@+id/action_nav_proveedores_to_registroProveedor"
+            app:destination="@id/registroProveedor" />
+    </fragment>
     <fragment
         android:id="@+id/nav_usuarios"
         android:name="pe.com.marbella.ui.usuario.UsuarioFragment"
@@ -55,7 +59,12 @@
         android:id="@+id/registroUsuario"
         android:name="pe.com.marbella.ui.usuario.RegistroUsuario"
         android:label="activity_registro_usuario"
-        tools:layout="@layout/activity_registro_usuario" />
+        tools:layout="@layout/activity_registro_usuario" >
+        <argument
+            android:name="codigoUsuario"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </activity>
     <activity
         android:id="@+id/registroMarca"
         android:name="pe.com.marbella.ui.marca.RegistroMarca"
@@ -63,6 +72,21 @@
         tools:layout="@layout/activity_registro_marca" >
         <argument
             android:name="codigoMarca"
-            app:argType="long" />
+            app:argType="long"
+            android:defaultValue="0L"/>
+        <argument
+            android:name="IS_EDIT_MODE"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </activity>
+    <activity
+        android:id="@+id/registroProveedor"
+        android:name="pe.com.marbella.ui.proveedor.RegistroProveedor"
+        android:label="activity_registro_proveedor"
+        tools:layout="@layout/activity_registro_proveedor" >
+        <argument
+            android:name="codigoProveedor"
+            app:argType="long"
+            android:defaultValue="0L" />
     </activity>
 </navigation>
