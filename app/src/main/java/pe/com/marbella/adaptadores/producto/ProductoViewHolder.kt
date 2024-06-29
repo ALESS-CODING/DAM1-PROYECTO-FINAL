@@ -9,8 +9,8 @@ class ProductoViewHolder (view: View) : RecyclerView.ViewHolder(view) {
 
     private var binding = ListProductoBinding.bind(view)
     fun render (producto: Producto, onItemSeleted: (codigo: Long) -> Unit){
-        binding.lblIdProd.text = producto.codigo.toString()
         binding.lblNombreProd.text = producto.nombre
+        binding.lbldescPro.text = producto.descripcion
         binding.lblStockAct.text = producto.stockActual.toString()
         binding.lblStockMin.text = producto.stockMinimo.toString()
         binding.lblPrecio.text =  producto.precio.toDouble().toString()

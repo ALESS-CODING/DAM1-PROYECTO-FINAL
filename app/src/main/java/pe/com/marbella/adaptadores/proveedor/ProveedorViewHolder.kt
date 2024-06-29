@@ -9,11 +9,11 @@ class ProveedorViewHolder( view: View) : RecyclerView.ViewHolder(view) {
 
     private var binding: ListProveedorBinding = ListProveedorBinding.bind(view)
     fun render(proveedor: Proveedor, onItemSelected: (codigo: Long) -> Unit) {
-        binding.lblIdProv.text =  proveedor.codigo.toString()
         binding.lblNombreProv.text = proveedor.nombre
         binding.lblTelefProv.text = proveedor.telefono
-        binding.lblCorreoProv.text = proveedor.nomRepresentante
         binding.lblCorreoProv.text = proveedor.correo
+        binding.lblDireccion.text = proveedor.direccion
+        binding.lblRepresentante.text = proveedor.nomRepresentante
 
         binding.lyListaProveedor.setOnClickListener{onItemSelected(proveedor.codigo)}
     }

@@ -9,22 +9,20 @@
     android:textAlignment="center">
 
     <TextView
-        android:id="@+id/lblIdProv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.2"
-        android:gravity="center_horizontal"
-        android:text="1"
-        android:textAlignment="center"
-        android:textSize="12sp" />
-
-    <TextView
         android:id="@+id/lblNombreProv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_horizontal"
         android:text="Proveedor"
+        android:textSize="12sp" />
+    <TextView
+        android:id="@+id/lblDireccion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="Direccion"
         android:textSize="12sp" />
     <TextView
         android:id="@+id/lblTelefProv"
@@ -34,6 +32,7 @@
         android:gravity="center_horizontal"
         android:text="Teléfono"
         android:textSize="12sp" />
+
     <TextView
         android:id="@+id/lblCorreoProv"
         android:layout_width="0dp"
@@ -50,4 +49,5 @@
         android:gravity="center_horizontal"
         android:text="Representante"
         android:textSize="12sp" />
+
 </LinearLayout>

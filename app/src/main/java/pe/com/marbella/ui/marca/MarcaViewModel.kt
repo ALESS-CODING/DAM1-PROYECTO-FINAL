@@ -1,7 +1,5 @@
 package pe.com.marbella.ui.marca
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,11 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import pe.com.marbella.data.model.Marca
-import pe.com.marbella.data.providers.MarcaProvider
 import pe.com.marbella.data.services.MarcaApiService
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 @HiltViewModel
 class MarcaViewModel @Inject constructor(private val marcaApiService: MarcaApiService) : ViewModel() {
@@ -26,20 +23,24 @@ class MarcaViewModel @Inject constructor(private val marcaApiService: MarcaApiSe
     }
 
     //obtener lista de marca
-    private fun getAllMarca() {
+    fun getAllMarca() {
         viewModelScope.launch {
-            val response = marcaApiService.getAllMarca()
-            if(response != null){
-                _marcaList.value = marcaApiService.getAllMarca()
+            withContext(Dispatchers.IO){
+                val response = marcaApiService.getAllMarca()
+                if(response != null){
+                    _marcaList.value = marcaApiService.getAllMarca()
+                }
             }
-
         }
     }
 
+    //Eliminar Marca
     fun deleteByIdMarca(idMarca: Long) {
         viewModelScope.launch {
-            marcaApiService.deleteMarca(idMarca)
-            getAllMarca()
+            withContext(Dispatchers.IO){
+                marcaApiService.deleteMarca(idMarca)
+                getAllMarca()
+            }
         }
     }
 

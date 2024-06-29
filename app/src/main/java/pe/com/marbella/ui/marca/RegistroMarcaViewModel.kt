@@ -1,6 +1,5 @@
 package pe.com.marbella.ui.marca
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,27 +7,57 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import pe.com.marbella.data.ResultState
+import pe.com.marbella.data.impl.MarcaImpl
 import pe.com.marbella.data.model.Marca
-import pe.com.marbella.data.model.MarcaState
-import pe.com.marbella.data.services.MarcaApiService
 import javax.inject.Inject
 
 @HiltViewModel
-class RegistroMarcaViewModel @Inject constructor(private val marcaApiService: MarcaApiService): ViewModel (){
+class RegistroMarcaViewModel @Inject constructor(private val marcaImpl: MarcaImpl): ViewModel (){
 
-    private var _stateMarca = MutableStateFlow<MarcaState> (MarcaState.Loading)
-    val stateMarca : StateFlow<MarcaState> = _stateMarca
+
+    private var _resultState = MutableStateFlow<ResultState<Marca>?> (null)
+    val resultState: StateFlow<ResultState<Marca>?> = _resultState
 
     fun findByIdMarca(idMarca: Long) {
-
-        viewModelScope.launch { Dispatchers.IO
-            _stateMarca.value = MarcaState.Loading
-             val marca = marcaApiService.findById(idMarca)
-            if(marca != null){
-                _stateMarca.value = MarcaState.Success(marca)
-            }else{
-                _stateMarca.value = MarcaState.Error("Ocurrio un error")
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                //_resultState.value = ResultState.Loading(null)
+                val response = marcaImpl.findByIdMarca(idMarca)
+                if(response != null){
+                    _resultState.value = ResultState.FindById(response)
+                }else{
+                    _resultState.value = ResultState.Error("Error en el servidor al buscar marca : $idMarca")
+                }
             }
+
+        }
+    }
+    //funcion para guardar una marca
+    fun saveMarca (marca: Marca){
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                val response = marcaImpl.saveMarca(marca)
+                if(response != null){
+                    _resultState.value = ResultState.Save(response)
+                }else{
+                    _resultState.value = ResultState.Error("Error en el servidor al guardar marca ")
+                }
+            }
+        }
+    }
+    //funcion para actualizar una marca
+    fun updateMarca (codigo: Long, marca: Marca){
+        viewModelScope.launch {
+           withContext(Dispatchers.IO){
+               val response =  marcaImpl.updateMarca(codigo, marca)
+               if(response != null){
+                   _resultState.value = ResultState.Update(response)
+               }else{
+                   _resultState.value = ResultState.Error("Error en el servidor al guardar marca ")
+               }
+           }
         }
     }
 

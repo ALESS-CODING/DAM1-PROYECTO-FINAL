@@ -1,6 +1,5 @@
 package pe.com.marbella.ui.marca
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,11 +17,9 @@ import kotlinx.coroutines.launch
 import pe.com.marbella.adaptadores.marca.MarcaAdapter
 import pe.com.marbella.databinding.FragmentMarcaBinding
 import pe.com.marbella.util.ToastUtil
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class MarcaFragment  constructor() : Fragment() {
-
+class MarcaFragment : Fragment() {
 
     private val marcaViewModel by viewModels<MarcaViewModel>()
     private var _binding: FragmentMarcaBinding? = null
@@ -31,15 +28,63 @@ class MarcaFragment  constructor() : Fragment() {
     private lateinit var marcaAdapter: MarcaAdapter
     private var ID_MARCA: Long = -1L
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    //objetos
+    private val toastUtil = ToastUtil()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentMarcaBinding.inflate(inflater, container, false)
+        val root: View = binding.root
         initUI()
+
+        //Enabilitar los botones
+        enableButtons()
+
+        //Abrir interfaz e Reistro
+        binding.btnRegistrarMarca.setOnClickListener {
+            findNavController().navigate(
+                MarcaFragmentDirections.actionNavMarcasToRegistroMarca(-1L, false)
+            )
+            enableButtons()
+            ID_MARCA = -1L
+        }
+
+        //eliminar una marca
+        binding.btnEliminarMarca.setOnClickListener {
+            if(ID_MARCA == -1L){
+                toastUtil.mensajeToast(context, "Por Favor seleccione una marca ")
+                return@setOnClickListener
+            }
+            marcaViewModel.deleteByIdMarca(ID_MARCA)
+            ID_MARCA = -1L
+        }
+
+        //abrir interfaz para atualizar una mara
+        binding.btnActualizarMarca.setOnClickListener{
+            if(ID_MARCA == -1L){
+                toastUtil.mensajeToast(context, "Por favor seleccione una marca para")
+                return@setOnClickListener
+            }
+            navegacionActualizaMarca()
+        }
+
+        return root
+    }
+
+    //ejecuta la funcion cada vez que muestar el farmento
+    override fun onResume() {
+        super.onResume()
+        marcaViewModel.getAllMarca()
     }
 
     private fun initUI() {
         initMarcaAdapter()
         initUIState()
     }
+    //iniciar lista Marca y actualizar adaptadorMarca
     private fun initUIState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
@@ -50,10 +95,20 @@ class MarcaFragment  constructor() : Fragment() {
             }
         }
     }
+
+
     //Inicuializar marca adapater
     private fun initMarcaAdapter() {
         marcaAdapter = MarcaAdapter( onItemSelected = {
-            //obtener el id de marca seleccionanda
+            //obtener el id de marca seleccionanda y habilitar el boton atualizar
+            val btnAct = binding.btnActualizarMarca
+            val btnElim = binding.btnEliminarMarca
+
+            if(!btnElim.isEnabled || !btnAct.isEnabled){
+                btnElim.isEnabled = true
+                btnAct.isEnabled = true
+            }
+
             ID_MARCA = it
         })
 
@@ -63,56 +118,19 @@ class MarcaFragment  constructor() : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMarcaBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        binding.btnRegistrarMarca.setOnClickListener {
-            /*val intent = Intent(activity, RegistroMarca::class.java)
-            intent.putExtra("IS_EDIT_MODE", false)
-            startActivity(intent)*/
-
-            findNavController().navigate(
-                MarcaFragmentDirections.actionNavMarcasToRegistroMarca(-1L, false)
-            )
-        }
-        binding.btnEliminarMarca.setOnClickListener {
-            if(ID_MARCA == -1L){
-                Toast.makeText(context, "Por Favor seleccione una marca ", Toast.LENGTH_LONG).show()
-                return@setOnClickListener
-            }
-            marcaViewModel.deleteByIdMarca(ID_MARCA)
-        }
-
-        /*
-        binding.btnActualizarMarca.setOnClickListener {
-            val idMarca:Long = obtenerIdMarcaSeleccionada()
-            val intent = Intent(activity, RegistroMarca::class.java)
-            intent.putExtra("IS_EDIT_MODE", true)
-            intent.putExtra("ID_MARCA", idMarca)
-            startActivity(intent)
-        }*/
-
-        binding.btnActualizarMarca.setOnClickListener{
-            if(ID_MARCA == -1L){
-                Toast.makeText(context, "Por favor seleccione una marca para ACTUALIZAR", Toast.LENGTH_LONG).show()
-                return@setOnClickListener
-            }
-            startUpdateMarca()
-        }
-
-        return root
-    }
 
     //abrir activity update Producto pasando id marca
-    private fun startUpdateMarca() {
+    private fun navegacionActualizaMarca() {
         findNavController().navigate(
             MarcaFragmentDirections.actionNavMarcasToRegistroMarca(ID_MARCA, true)
         )
+        ID_MARCA = -1L
+        enableButtons()
+    }
+    //enahblitar buttons
+    private fun enableButtons (){
+        binding.btnActualizarMarca.isEnabled = false
+        binding.btnEliminarMarca.isEnabled = false
     }
 
     override fun onDestroyView() {

@@ -11,7 +11,6 @@ class UsuarioAdapter(
     ) :
     RecyclerView.Adapter<UsuarioViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UsuarioViewHolder {
         val usuarioViewHolder = UsuarioViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.list_usuario, parent, false)
@@ -29,5 +28,6 @@ class UsuarioAdapter(
 
     fun actualizarUsuarioList(lista: List<Usuario>){
         usuarioList = lista
+        notifyDataSetChanged()
     }
 }

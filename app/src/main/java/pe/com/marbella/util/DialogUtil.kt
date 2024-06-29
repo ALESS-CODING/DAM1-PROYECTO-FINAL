@@ -7,7 +7,7 @@ import javax.inject.Inject
 class DialogUtil @Inject constructor() {
     private var dialogo : AlertDialog.Builder? = null
 
-    fun MensajeAlerta (context: Context, title: String, message: String,
+    fun MensajeAlerta (context: Context?, title: String, message: String,
                        cancelable: Boolean, textButtonPositive: String, ){
 
         dialogo = AlertDialog.Builder(context)

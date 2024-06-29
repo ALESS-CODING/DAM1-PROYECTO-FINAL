@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -25,12 +26,73 @@ class ProductoFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var productoAdapter: ProductoAdapter
+    private var ID_PRODUCTO: Long = -1L
 
     //una vez que  la vista ah sido reado
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
     }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentProductoBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+        //desabilitar buttoons
+        enableButtons()
+
+        //abrir interfaz registrar producto
+        binding.btnRegistrarProducto.setOnClickListener {
+            navegarRegistrarInterfaz()
+            ID_PRODUCTO = -1L
+        }
+
+        binding.btnActualizarProducto.setOnClickListener {
+            if(ID_PRODUCTO == -1L){
+                Toast.makeText(context, "Selccione un producto", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            navegarActualizarProductoInterfaz (ID_PRODUCTO)
+            ID_PRODUCTO = -1L
+        }
+
+        binding.btnEliminarProducto.setOnClickListener {
+            if(ID_PRODUCTO == -1L){
+                Toast.makeText(context, "Selccione un producto", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            productoViewModel.deleteByIdProducto(ID_PRODUCTO)
+            ID_PRODUCTO = -1L
+        }
+
+        return root
+    }
+    //se llama la funcion cada ves que se muestra el fragmento
+    override fun onResume() {
+        super.onResume()
+        productoViewModel.getAllProducts()
+    }
+
+
+    //abrir interfaz actualizar producto
+    private fun navegarActualizarProductoInterfaz(idProducto: Long) {
+        findNavController().navigate(
+            ProductoFragmentDirections.actionNavProductosToRegistroProducto(true, idProducto)
+        )
+        enableButtons()
+    }
+
+    // abrir interfaz agregar producto
+    private fun navegarRegistrarInterfaz() {
+        findNavController().navigate(
+            ProductoFragmentDirections.actionNavProductosToRegistroProducto(false, -1L)
+        )
+        enableButtons()
+    }
+
 
     private fun initUI() {
         initProductoAdapter()
@@ -42,7 +104,15 @@ class ProductoFragment : Fragment() {
     private fun initProductoAdapter() {
         //obtneer produto selecionnado
         productoAdapter = ProductoAdapter(onItemSelected = {
-            Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+            val btnAct = binding.btnActualizarProducto
+            val btnElim = binding.btnEliminarProducto
+
+            if(!btnElim.isEnabled || !btnAct.isEnabled){
+                btnElim.isEnabled = true
+                btnAct.isEnabled = true
+            }
+            //actualizar id producto
+            ID_PRODUCTO = it
         })
 
         binding.lvProducto.apply {
@@ -61,33 +131,10 @@ class ProductoFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProductoBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        binding.btnRegistrarProducto.setOnClickListener {
-            val intent = Intent(activity, RegistroProducto::class.java)
-            intent.putExtra("IS_EDIT_MODE", false)
-            startActivity(intent)
-        }
-
-        binding.btnActualizarProducto.setOnClickListener {
-            val idProducto:Long = obtenerIdProductoSeleccionado()
-            val intent = Intent(activity, RegistroProducto::class.java)
-            intent.putExtra("IS_EDIT_MODE", true)
-            intent.putExtra("ID_PRODUCTO", idProducto)
-            startActivity(intent)
-        }
-
-        return root
-    }
-
-    private fun obtenerIdProductoSeleccionado(): Long {
-        return 123L
+    // hinabilitar los botnoes
+    private fun  enableButtons (){
+        binding.btnActualizarProducto.isEnabled = false
+        binding.btnEliminarProducto.isEnabled = false
     }
 
     override fun onDestroyView() {

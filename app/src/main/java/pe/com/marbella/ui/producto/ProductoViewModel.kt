@@ -1,30 +1,44 @@
 package pe.com.marbella.ui.producto
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import pe.com.marbella.data.model.Categoria
-import pe.com.marbella.data.model.Marca
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import pe.com.marbella.data.impl.ProductoImpl
 import pe.com.marbella.data.model.Producto
-import pe.com.marbella.data.model.UnidadMedida
-import pe.com.marbella.data.providers.ProductoProvider
-import java.math.BigDecimal
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductoViewModel @Inject constructor( val productoProvider: ProductoProvider) : ViewModel() {
+class ProductoViewModel @Inject constructor( private val productoImpl: ProductoImpl) : ViewModel() {
 
     private var _produtsList = MutableStateFlow<List<Producto>>(emptyList())
     val produtsList: StateFlow<List<Producto>> = _produtsList
 
     init {
-        _produtsList.value = getAllProducts()
+        getAllProducts()
     }
     //obtener productos
-    private fun getAllProducts() : List<Producto> {
-        return productoProvider.getAllsProducts()
+    fun getAllProducts(){
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                val response = productoImpl.getAllProducto()
+                if(response != null){
+                    _produtsList.value = response
+                }
+            }
+        }
+    }
+
+    fun deleteByIdProducto (codigo: Long){
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                productoImpl.deleteByIdProducto(codigo)
+                getAllProducts()
+            }
+        }
     }
 }

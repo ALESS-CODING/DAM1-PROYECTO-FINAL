@@ -9,9 +9,10 @@ class UsuarioViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private var binding: ListUsuarioBinding = ListUsuarioBinding.bind(view)
     fun render(usuario: Usuario, onItemSelected: (codigo: Long) -> Unit) {
-        binding.lblIdUsu.text = usuario.codigo.toString()
         binding.lblNombreUsu.text = usuario.nombre
         binding.lblCorreoUsu.text = usuario.correo
+        binding.lblUsername.text = usuario.username
+        binding.lblPassUsu.text = usuario.password
 
         binding.lyListaUsuario.setOnClickListener{ onItemSelected(usuario.codigo)}
     }

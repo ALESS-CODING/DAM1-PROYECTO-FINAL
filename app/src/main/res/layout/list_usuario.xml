@@ -9,22 +9,12 @@
     android:id="@+id/lyListaUsuario">
 
     <TextView
-        android:id="@+id/lblIdUsu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.2"
-        android:gravity="center_horizontal"
-        android:text="1"
-        android:textAlignment="center"
-        android:textSize="20sp" />
-
-    <TextView
         android:id="@+id/lblNombreUsu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="Nombre marca"
+        android:text="Nombre"
         android:textSize="20sp" />
     <TextView
         android:id="@+id/lblCorreoUsu"
@@ -34,4 +24,25 @@
         android:gravity="center_horizontal"
         android:text="Correo"
         android:textSize="20sp" />
+
+
+    <TextView
+        android:id="@+id/lblUsername"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="username"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+    <TextView
+        android:id="@+id/lblPassUsu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="Password"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
 </LinearLayout>

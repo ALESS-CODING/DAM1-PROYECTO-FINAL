@@ -7,9 +7,10 @@ import dagger.hilt.components.SingletonComponent
 import pe.com.marbella.data.impl.MarcaImpl
 import pe.com.marbella.data.impl.ProveedorImpl
 import pe.com.marbella.data.services.MarcaApiService
+import pe.com.marbella.data.services.ProductoApiService
 import pe.com.marbella.data.services.ProveedorApiService
+import pe.com.marbella.data.services.UsuarioApiService
 import pe.com.marbella.domain.repository.IMarca
-import pe.com.marbella.domain.repository.ProveedorRepository
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -27,13 +28,8 @@ object RetrofitModule {
             .build()
     }
     @Provides
-
     fun ProveedorApiService(retrofit: Retrofit): ProveedorApiService{
         return retrofit.create(ProveedorApiService::class.java)
-    }
-    @Provides
-    fun provideRepository (proveedorApiService: ProveedorApiService) : ProveedorRepository{
-        return ProveedorImpl(proveedorApiService)
     }
 
     @Provides
@@ -41,5 +37,14 @@ object RetrofitModule {
         return retrofit.create(MarcaApiService::class.java)
     }
 
+    @Provides
+    fun UsuarioApiService (retrofit: Retrofit): UsuarioApiService{
+        return retrofit.create(UsuarioApiService::class.java)
+    }
+
+    @Provides
+    fun ProductoApiService (retrofit: Retrofit): ProductoApiService{
+        return retrofit.create(ProductoApiService::class.java)
+    }
 
 }

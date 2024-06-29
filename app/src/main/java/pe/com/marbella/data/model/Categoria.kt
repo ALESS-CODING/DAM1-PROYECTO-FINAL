@@ -1,3 +1,9 @@
 package pe.com.marbella.data.model
 
-data class Categoria(var codigo: Long, var descripcion: String)
+import com.google.gson.annotations.SerializedName
+
+data class Categoria(
+    @SerializedName("idCategoria") var codigo: Long,
+    @SerializedName("nombre") var descripcion: String,
+    @SerializedName("estado") var estado: Boolean
+)

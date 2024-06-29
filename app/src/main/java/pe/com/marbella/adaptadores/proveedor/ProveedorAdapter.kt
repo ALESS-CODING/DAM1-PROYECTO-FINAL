@@ -22,6 +22,7 @@ class ProveedorAdapter (
 
     override fun onBindViewHolder(holder: ProveedorViewHolder, position: Int) {
         return holder.render(proveedorList[position], onItemSelected)
+
     }
 
     fun actualizarProveedorList(lista: List<Proveedor>) {

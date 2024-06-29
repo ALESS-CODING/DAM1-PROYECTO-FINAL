@@ -1,5 +1,6 @@
 package pe.com.marbella.ui.usuario
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,25 +16,59 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pe.com.marbella.adaptadores.usuario.UsuarioAdapter
 import pe.com.marbella.databinding.FragmentUsuarioBinding
-import pe.com.marbella.ui.marca.RegistroMarca
+import pe.com.marbella.util.ToastUtil
+
 @AndroidEntryPoint
 class UsuarioFragment : Fragment() {
     private val usuarioViewModel by viewModels<UsuarioViewModel>()
-
     private var _binding: FragmentUsuarioBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var usuarioAdapter: UsuarioAdapter
-    private var ID_USUARIO: Long = 0L
+    private var ID_USUARIO: Long = -1L
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    //objetos
+    val toastUtil = ToastUtil()
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View {
+        _binding = FragmentUsuarioBinding.inflate(inflater, container, false)
+        val root: View = binding.root
         initUI()
+        //enabilitar los buttons
+        enabledButtons()
+
+        binding.btnRegistrarUsuario.setOnClickListener {
+            iniciarAgregarUsuario()
+        }
+
+        binding.btnActualizarUsuario.setOnClickListener {
+            if(ID_USUARIO == -1L){
+                toastUtil.mensajeToast(requireContext(), "Por favor seleccione un usuario")
+                return@setOnClickListener
+            }
+            iniciarActualizarUsuario ( ID_USUARIO)
+            ID_USUARIO = -1L
+        }
+
+        //button eliminar usuario
+        binding.btnEliminarUsuario.setOnClickListener {
+            if(ID_USUARIO == -1L){
+                toastUtil.mensajeToast(requireContext(), "Por favor seleccione un usuario")
+                return@setOnClickListener
+            }
+            usuarioViewModel.deleteByIdUsuario(ID_USUARIO)
+            enabledButtons()
+            ID_USUARIO = -1L
+        }
+        return root
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        usuarioViewModel.getAllUsuario()
     }
 
     private fun initUI() {
@@ -43,6 +78,14 @@ class UsuarioFragment : Fragment() {
 
     private fun initUsuarioAdapter() {
         usuarioAdapter = UsuarioAdapter( onItemSelected = {
+            //ativar los buttons
+            val btnAct = binding.btnActualizarUsuario
+            val btnElim = binding.btnEliminarUsuario
+
+            if(!btnElim.isEnabled || !btnAct.isEnabled){
+                btnElim.isEnabled = true
+                btnAct.isEnabled = true
+            }
             //navegar a registro producto
             ID_USUARIO = it
         })
@@ -62,43 +105,27 @@ class UsuarioFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentUsuarioBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        binding.btnRegistrarUsuario.setOnClickListener {
-            val intent = Intent(activity, RegistroUsuario::class.java)
-            intent.putExtra("IS_EDIT_MODE", false)
-            startActivity(intent)
-        }
-
-        binding.btnActualizarUsuario.setOnClickListener {
-            /*val idUsuario:Long = obtenerIdUsuarioSeleccionado()
-            val intent = Intent(activity, RegistroUsuario::class.java)
-            intent.putExtra("IS_EDIT_MODE", true)
-            intent.putExtra("ID_USUARIO", idUsuario)
-            startActivity(intent)*/
-            if(ID_USUARIO == 0L){
-                Toast.makeText(context, "Porfavor leccione un usuario", Toast.LENGTH_LONG).show()
-                return@setOnClickListener
-            }
-            iniciarActualizarUsuario ()
-        }
-
-        return root
-    }
-
-    private fun iniciarActualizarUsuario() {
+    private fun iniciarActualizarUsuario(codigo: Long) {
         findNavController().navigate(
-            UsuarioFragmentDirections.actionNavUsuariosToRegistroUsuario(ID_USUARIO)
+            UsuarioFragmentDirections.actionNavUsuariosToRegistroUsuario(codigo, true)
         )
+        ID_USUARIO = -1L
+        enabledButtons()
     }
 
-    private fun obtenerIdUsuarioSeleccionado(): Long {
-        return 123L
+    //navegar a interfaz Añadir usuario
+    private fun iniciarAgregarUsuario() {
+        findNavController().navigate(
+            UsuarioFragmentDirections.actionNavUsuariosToRegistroUsuario(-1, false)
+        )
+        ID_USUARIO = -1L
+        enabledButtons()
+    }
+
+    //enabilitar buttons
+    private fun enabledButtons (){
+        binding.btnEliminarUsuario.isEnabled = false
+        binding.btnActualizarUsuario.isEnabled = false
     }
 
     override fun onDestroyView() {

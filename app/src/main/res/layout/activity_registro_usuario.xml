@@ -22,7 +22,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nombre del usuario (login):" />
+                android:text="Nombre" />
 
             <EditText
                 android:id="@+id/txtNombreUsu"
@@ -37,30 +37,49 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Contraseña:" />
-
-                <EditText
-                    android:id="@+id/txtContraseniaUsu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPassword" />
-
-                <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/lblNombre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Correo:" />
 
                 <EditText
-                    android:id="@+id/txtCorreoUsu"
+                    android:id="@+id/txtCorreo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textEmailAddress" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Username:" />
+
+                <EditText
+                    android:id="@+id/txtUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                </LinearLayout>
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Contraseña:" />
+
+                    <EditText
+                        android:id="@+id/txtContraseniaUsu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPassword" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"

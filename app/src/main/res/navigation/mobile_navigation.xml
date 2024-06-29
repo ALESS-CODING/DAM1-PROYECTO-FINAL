@@ -15,7 +15,11 @@
         android:id="@+id/nav_productos"
         android:name="pe.com.marbella.ui.producto.ProductoFragment"
         android:label="@string/menu_productos"
-        tools:layout="@layout/fragment_producto" />
+        tools:layout="@layout/fragment_producto" >
+        <action
+            android:id="@+id/action_nav_productos_to_registroProducto"
+            app:destination="@id/registroProducto" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_marcas"
@@ -54,7 +58,16 @@
         android:id="@+id/registroProducto"
         android:name="pe.com.marbella.ui.producto.RegistroProducto"
         android:label="activity_registro_producto"
-        tools:layout="@layout/activity_registro_producto" />
+        tools:layout="@layout/activity_registro_producto" >
+        <argument
+            android:name="IS_EDIT_MODE"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="ID_PRODUCTO"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </activity>
     <activity
         android:id="@+id/registroUsuario"
         android:name="pe.com.marbella.ui.usuario.RegistroUsuario"
@@ -63,7 +76,11 @@
         <argument
             android:name="codigoUsuario"
             app:argType="long"
-            android:defaultValue="0L" />
+            android:defaultValue="-1L" />
+        <argument
+            android:name="IS_EDIT_MODE"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </activity>
     <activity
         android:id="@+id/registroMarca"
@@ -88,5 +105,9 @@
             android:name="codigoProveedor"
             app:argType="long"
             android:defaultValue="0L" />
+        <argument
+            android:name="IS_EDIT_MODE"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </activity>
 </navigation>

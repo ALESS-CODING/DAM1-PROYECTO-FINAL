@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.utils.KOTLIN_KAPT_PLUGIN_ID
 
 plugins {
     alias(libs.plugins.android.application)
@@ -16,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "pe.com.marbella"
-        minSdk = 26
+        minSdk = 24
         //noinspection OldTargetApi
         targetSdk = 34
         versionCode = 1

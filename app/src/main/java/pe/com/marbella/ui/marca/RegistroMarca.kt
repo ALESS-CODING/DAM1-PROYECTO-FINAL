@@ -1,9 +1,6 @@
 package pe.com.marbella.ui.marca
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -14,15 +11,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pe.com.marbella.R
+import pe.com.marbella.data.ResultState
 import pe.com.marbella.data.model.Marca
-import pe.com.marbella.data.model.MarcaState
-import pe.com.marbella.data.services.MarcaApiService
 import pe.com.marbella.databinding.ActivityRegistroMarcaBinding
-import javax.inject.Inject
+import pe.com.marbella.util.DialogUtil
 
 @AndroidEntryPoint
 class RegistroMarca: AppCompatActivity() {
@@ -32,19 +26,15 @@ class RegistroMarca: AppCompatActivity() {
 
     private val registroViewModel: RegistroMarcaViewModel by viewModels()
 
+    //objetos
+    private val dialogUtil = DialogUtil()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         binding = ActivityRegistroMarcaBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        initUI()
-
-        if(ARGUMENTS.ISEDITMODE && ARGUMENTS.codigoMarca != -1L){
-            registroViewModel.findByIdMarca(ARGUMENTS.codigoMarca)
-        }
-
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -52,28 +42,23 @@ class RegistroMarca: AppCompatActivity() {
             insets
         }
 
+        initUI()
 
-
-        /*val isEditMode = intent.getBooleanExtra("IS_EDIT_MODE", false)
-        val idMarca = intent.getLongExtra("ID_MARCA", -1L)
-
-        if (isEditMode && idMarca != -1L) {
-            cargarDataMarca(idMarca)
-        } else {
-
+        //validar para carar marca
+        if(ARGUMENTS.ISEDITMODE && ARGUMENTS.codigoMarca != -1L){
+            registroViewModel.findByIdMarca(ARGUMENTS.codigoMarca)
         }
 
-        findViewById<Button>(R.id.btnGrabarMar).setOnClickListener {
-            if (isEditMode) {
-                actualizarMarca(idMarca)
+        //Atualizar o grabar una marca
+        binding.btnGrabarMar.setOnClickListener {
+            if (ARGUMENTS.ISEDITMODE) {
+                actualizarMarca(ARGUMENTS.codigoMarca)
             } else {
                 grabarNuevaMarca()
             }
-        }*/
-
+        }
         // Configura el botón de regreso
-        val backButton: Button = findViewById(R.id.btnRegresarMar)
-        backButton.setOnClickListener {
+        binding.btnRegresarMar.setOnClickListener {
             finish()
         }
     }
@@ -85,31 +70,84 @@ class RegistroMarca: AppCompatActivity() {
     private fun initUIState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
-                registroViewModel.stateMarca.collect{
+                registroViewModel.resultState.collect{
                     when(it){
-                        is MarcaState.Error -> {}
-                        MarcaState.Loading -> {}
-                        is MarcaState.Success -> {cargarDataMarca(it.marca)}
+                        is ResultState.Delete -> {}
+                        is ResultState.Error -> errorMensaje(it.error)
+                        is ResultState.FindById -> cargarDataMarca(it.data)
+                        is ResultState.Loading -> {}
+                        is ResultState.Save -> {resultadoMensaje("guardado")}
+                        is ResultState.Update -> {resultadoMensaje("Actualizado")}
+                        null -> {}
                     }
                 }
             }
 
         }
     }
-
-    private fun error() {
-        Toast.makeText(this, "Ocurrio un error", Toast.LENGTH_LONG).show()
+    //funion limpiar
+    private fun limpiarInterfaz (){
+        binding.txtNombreMar.setText("")
     }
 
+    //funcion capturar error
+    private fun validarInterfaz (): Boolean {
+        val txt = binding.txtNombreMar.text.toString()
+        if(txt.isEmpty() || txt.isBlank()){
+            binding.txtNombreMar.error = "El campo no puede estar vacio"
+            binding.txtNombreMar.requestFocus()
+            return false
+        }
+        return true
+    }
+
+    //Grabar nueva marca
     private fun grabarNuevaMarca() {
-
+        if(!validarInterfaz()){
+            return
+        }
+        val marca: Marca = Marca(0L, binding.txtNombreMar.text.toString(), true)
+        registroViewModel.saveMarca(marca)
+        limpiarInterfaz()
     }
 
+    //llamar a la funcion actulizar
     private fun actualizarMarca(idMarca: Long) {
-
+        if(!validarInterfaz()){
+            return
+        }
+        val desc: String = binding.txtNombreMar.text.toString()
+        val marca: Marca = Marca (idMarca, desc, estado = true)
+        registroViewModel.updateMarca(idMarca, marca)
+        limpiarInterfaz()
     }
 
+    //Resultado de atualizar: muestra dialo
+    private fun resultadoMensaje(tipoMessae: String) {
+        dialogUtil.MensajeAlerta(
+            this,
+            "Exito",
+            "$tipoMessae con éxito ",
+            false,
+            "Aceptar"
+        )
+        limpiarInterfaz()
+    }
+
+    private fun errorMensaje (error: String){
+        dialogUtil.MensajeAlerta(
+            this,
+            "ERROR",
+            "$error ",
+            false,
+            "Aceptar"
+        )
+    }
+
+    //cargar datos de marca para actualizar
     private fun cargarDataMarca(marca: Marca) {
-        binding.txtNombreMar.setText(marca.descripcion.toString())
+        binding.txtNombreMar.setText(marca.descripcion)
     }
+
+
 }
