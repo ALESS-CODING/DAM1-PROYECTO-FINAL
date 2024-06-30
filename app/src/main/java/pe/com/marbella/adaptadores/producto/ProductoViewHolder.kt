@@ -13,7 +13,6 @@ class ProductoViewHolder (view: View) : RecyclerView.ViewHolder(view) {
         binding.lbldescPro.text = producto.descripcion
         binding.lblStockAct.text = producto.stockActual.toString()
         binding.lblStockMin.text = producto.stockMinimo.toString()
-        binding.lblPrecio.text =  producto.precio.toDouble().toString()
 
         binding.lyListaProduto.setOnClickListener{onItemSeleted(producto.codigo)}
 

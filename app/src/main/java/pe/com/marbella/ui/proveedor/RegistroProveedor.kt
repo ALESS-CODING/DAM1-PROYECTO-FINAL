@@ -23,7 +23,6 @@ class RegistroProveedor : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegistroProveedorBinding
     private val registroProveedorViewModel: RegistroProveedorViewModel by viewModels ()
-
     //recebir toos los argumentos
     private val ARGUMENTS :  RegistroProveedorArgs by navArgs()
 

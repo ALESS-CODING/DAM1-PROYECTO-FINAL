@@ -1,10 +1,11 @@
 package pe.com.marbella.data.model
 
+import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal
 
 data class DetalleEntrada(
-    var entradaProducto: EntradaProducto,
-    var producto: Producto,
-    var cantidad: Int,
-    var precio: BigDecimal
+    @SerializedName("entrada") var entradaProducto: Entrada,
+    @SerializedName("producto") var producto: Producto,
+    @SerializedName("cantidad") var cantidad: Int,
+    @SerializedName("precio") var precio: BigDecimal
 )

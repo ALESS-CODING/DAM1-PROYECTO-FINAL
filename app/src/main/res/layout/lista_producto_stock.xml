@@ -5,8 +5,7 @@
     android:orientation="horizontal"
     android:padding="5dp"
     android:background="@drawable/border"
-    android:textAlignment="center"
-    android:id="@+id/lyListaProduto">
+    android:textAlignment="center">
 
     <TextView
         android:id="@+id/lblNombreProd"
@@ -39,6 +38,14 @@
         android:layout_weight="1"
         android:gravity="center_horizontal"
         android:text="Stock Act."
+        android:textSize="14sp" />
+    <TextView
+        android:id="@+id/lblPrecio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="Precio"
         android:textSize="14sp" />
 
 </LinearLayout>

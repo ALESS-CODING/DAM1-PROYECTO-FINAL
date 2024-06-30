@@ -44,7 +44,7 @@ class RegistroUsuario : AppCompatActivity() {
             insets
         }
         initUI()
-        Toast.makeText(baseContext, ARGUMENTS.codigoUsuario.toString(), Toast.LENGTH_LONG).show()
+
         if (ARGUMENTS.ISEDITMODE && ARGUMENTS.codigoUsuario != -1L) {
             usuarioRegistroViewModel.findByIdUsuario(ARGUMENTS.codigoUsuario)
         }
@@ -120,8 +120,8 @@ class RegistroUsuario : AppCompatActivity() {
     private  fun validarInterfaz (): Boolean{
         val correo = binding.txtCorreo.text.toString()
         val nombre = binding.txtNombreUsu.text.toString()
-        val contra = binding.txtContraseniaUsu.toString()
-        val username = binding.txtUsername.toString()
+        val contra = binding.txtContraseniaUsu.text.toString()
+        val username = binding.txtUsername.text.toString()
 
         if(nombre.isEmpty() || nombre.isBlank()){
             binding.txtNombreUsu.error = "Este campo no puede estar vacio"
@@ -132,8 +132,8 @@ class RegistroUsuario : AppCompatActivity() {
             binding.txtCorreo.requestFocus()
             return false
         }else if(username.isEmpty() || username.isBlank()){
-            binding.txtCorreo.error = "Este campo no puede estar vacio"
-            binding.txtCorreo.requestFocus()
+            binding.txtUsername.error = "Este campo no puede estar vacio"
+            binding.txtUsername.requestFocus()
             return false
         }else if(contra.isEmpty() || contra.isBlank()){
             binding.txtContraseniaUsu.error = "Este campo no puede estar vacio"
@@ -158,7 +158,7 @@ class RegistroUsuario : AppCompatActivity() {
     private fun errorMensaje(error: String){
         dialogUtil.MensajeAlerta(
             this,
-            "Exito",
+            "Error",
             "$error ",
             false,
             "Aceptar"

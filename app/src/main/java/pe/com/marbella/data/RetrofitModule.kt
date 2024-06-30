@@ -6,9 +6,13 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import pe.com.marbella.data.impl.MarcaImpl
 import pe.com.marbella.data.impl.ProveedorImpl
+import pe.com.marbella.data.services.CategoriaApiService
+import pe.com.marbella.data.services.DetalleMovimientoApiService
 import pe.com.marbella.data.services.MarcaApiService
 import pe.com.marbella.data.services.ProductoApiService
 import pe.com.marbella.data.services.ProveedorApiService
+import pe.com.marbella.data.services.ReporteApiService
+import pe.com.marbella.data.services.UnidadMedidaApiService
 import pe.com.marbella.data.services.UsuarioApiService
 import pe.com.marbella.domain.repository.IMarca
 import retrofit2.Retrofit
@@ -45,6 +49,24 @@ object RetrofitModule {
     @Provides
     fun ProductoApiService (retrofit: Retrofit): ProductoApiService{
         return retrofit.create(ProductoApiService::class.java)
+    }
+
+    @Provides
+    fun ReporteApiService (retrofit: Retrofit): ReporteApiService{
+        return retrofit.create(ReporteApiService::class.java)
+    }
+    @Provides
+    fun CategoriaApiService (retrofit: Retrofit): CategoriaApiService{
+        return retrofit.create(CategoriaApiService::class.java)
+    }
+
+    @Provides
+    fun UnidadMedidaApiServie (retrofit: Retrofit): UnidadMedidaApiService{
+        return retrofit.create(UnidadMedidaApiService::class.java)
+    }
+    @Provides
+    fun detalleMovimientoApiService (retrofit: Retrofit): DetalleMovimientoApiService{
+        return retrofit.create(DetalleMovimientoApiService::class.java)
     }
 
 }
