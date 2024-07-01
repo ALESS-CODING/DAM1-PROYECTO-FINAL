@@ -15,6 +15,6 @@ class ProveedorViewHolder( view: View) : RecyclerView.ViewHolder(view) {
         binding.lblDireccion.text = proveedor.direccion
         binding.lblRepresentante.text = proveedor.nomRepresentante
 
-        binding.lyListaProveedor.setOnClickListener{onItemSelected(proveedor.codigo)}
+        binding.lyListaProveedor.setOnClickListener{onItemSelected(proveedor.idProveedor)}
     }
 }

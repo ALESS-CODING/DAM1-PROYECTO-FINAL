@@ -32,7 +32,7 @@ class UsuarioImpl @Inject constructor(private val usuarioApiService: UsuarioApiS
     override suspend fun updateUsuario(codido: Long, usuario: Usuario): Usuario? {
         runCatching { usuarioApiService.update(codido, usuario) }
             .onSuccess { return it }
-            .onFailure { Log.i("ERROR", "al actualizar marca $it") }
+            .onFailure { Log.i("ERROR", "al actualizar Usuario ${it.message}") }
 
         return null
     }

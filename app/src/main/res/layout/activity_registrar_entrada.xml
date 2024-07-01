@@ -156,9 +156,10 @@
                     android:text="Añadir" />
             </LinearLayout>
 
-            <ListView
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="324dp" />
+                android:layout_height="324dp"
+                android:id="@+id/rvListaDetalleEntrada"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

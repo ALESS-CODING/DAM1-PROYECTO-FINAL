@@ -2,13 +2,15 @@ package pe.com.marbella.data.services
 
 import pe.com.marbella.data.model.DetalleEntrada
 import pe.com.marbella.data.model.DetalleSalida
+import pe.com.marbella.data.model.Entrada
+import pe.com.marbella.data.model.Salida
 import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface DetalleMovimientoApiService {
-    @POST("productos/detalle-entrada")
-    suspend fun saveDetalleEntrada (@Body detalleEntrada: DetalleEntrada): DetalleEntrada
+    @POST("productos/entrada")
+    suspend fun saveEntrada (@Body detalleEntrada: Entrada): Entrada
 
-    @POST("productos/detalle-salida")
-    suspend fun saveDetalleSalida (@Body detalleSalida: DetalleSalida): DetalleSalida
+    @POST("productos/salida")
+    suspend fun saveSalida (@Body salida: Salida): Salida
 }

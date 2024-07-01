@@ -17,7 +17,7 @@ interface UsuarioApiService {
     @POST("usuarios")
     suspend fun save (@Body usuario: Usuario): Usuario
     @PUT("usuarios/{id}")
-    suspend fun  update (@Path("id") codigo: Long, @Body usuario: Usuario): Usuario
+    suspend fun update (@Path("id") codigo: Long, @Body usuario: Usuario): Usuario
     @DELETE("usuarios/{id}")
     suspend fun deleteById (@Path("id") codigo: Long)
 

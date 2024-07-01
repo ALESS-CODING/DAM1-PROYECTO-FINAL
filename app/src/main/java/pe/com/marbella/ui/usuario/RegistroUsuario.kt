@@ -94,7 +94,17 @@ class RegistroUsuario : AppCompatActivity() {
         if(!validarInterfaz()){
             return
         }
-        val usuario = objetoUsuario()
+        val usuario = usuarioRegistroViewModel.usuarioList.value.first { usu -> usu.codigo == idUsuario }
+
+        val correo = binding.txtCorreo.text.toString()
+        val nombre = binding.txtNombreUsu.text.toString()
+        val contra = binding.txtContraseniaUsu.text.toString()
+        val username = binding.txtUsername.text.toString()
+        //setear los datos
+        usuario.nombre = nombre
+        usuario.username = username
+        usuario.password = contra
+        usuario.correo = correo
         usuarioRegistroViewModel.updateUsuario(idUsuario, usuario)
     }
 

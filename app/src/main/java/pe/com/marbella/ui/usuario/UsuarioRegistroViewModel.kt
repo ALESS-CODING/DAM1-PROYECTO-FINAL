@@ -20,6 +20,27 @@ class UsuarioRegistroViewModel @Inject constructor(private val usuarioImpl: Usua
     private var _stateResult = MutableStateFlow<ResultState<Usuario>?> (null)
     val stateResult: StateFlow<ResultState<Usuario>?> = _stateResult
 
+    private var _usuarioList = MutableStateFlow<List<Usuario>> (emptyList())
+    val usuarioList : StateFlow<List<Usuario>> = _usuarioList
+
+    init {
+        getAllUsuarios()
+    }
+
+    //listar todos los usuarios
+    private fun getAllUsuarios() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                val response = usuarioImpl.findAllUsuario()
+                if(response != null){
+                    _usuarioList.value = response
+                }else{
+                    _usuarioList.value = emptyList()
+                }
+            }
+        }
+    }
+
     //funion busar Usuario
     fun findByIdUsuario (codigo: Long){
         viewModelScope.launch {

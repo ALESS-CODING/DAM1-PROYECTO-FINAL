@@ -83,10 +83,13 @@
                     android:text="Producto:"
                     android:textSize="18sp" />
 
-                <SearchView
+                <AutoCompleteTextView
+                    android:id="@+id/actProductoSal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5" />
+                    android:layout_weight="5"
+                    android:hint="Buscar un producto ..."/>
+
 
             </LinearLayout>
 
@@ -96,7 +99,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView18"
+                    android:id="@+id/actProSalida"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center|start"
@@ -118,7 +121,7 @@
                     android:textSize="18sp"/>
 
                 <EditText
-                    android:id="@+id/txtPrecioEnt"
+                    android:id="@+id/txtPrecioSal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -133,9 +136,10 @@
                     android:text="Añadir" />
             </LinearLayout>
 
-            <ListView
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="357dp" />
+                android:layout_height="357dp"
+                android:id="@+id/rvListaDetalleSalida"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

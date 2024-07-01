@@ -6,31 +6,39 @@
     android:padding="5dp"
     android:background="@drawable/border"
     android:textAlignment="center"
-    android:id="@+id/lyListaReporteSalida">
+    android:id="@+id/lyListaDetalleEntrada">
 
     <TextView
-        android:id="@+id/lblUsuario"
+        android:id="@+id/lblNombreProdEntra"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="Usuario"
+        android:text="Producto"
         android:textSize="14sp" />
     <TextView
-        android:id="@+id/lblFechaSalida"
+        android:id="@+id/lbldescProEntra"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="Fecha Salida"
+        android:text="Descripcion"
         android:textSize="14sp" />
     <TextView
-        android:id="@+id/lblEstadoSalida"
+        android:id="@+id/lblCantidadEntra"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="Estado"
+        android:text="Cantidad"
+        android:textSize="14sp" />
+    <TextView
+        android:id="@+id/lblPrecioEntra"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="Precio"
         android:textSize="14sp" />
 
 </LinearLayout>
